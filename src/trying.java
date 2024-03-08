@@ -1,19 +1,14 @@
-import javax.imageio.ImageIO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.attribute.FileTime;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -33,28 +28,43 @@ public class trying extends JFrame {
 
     private JTextField contentTextField;
     private JTextField nameTextField;
-    private JTextField dobTextField;
+    private JTextField emailTextField;
 
     private JLabel qrCodeLabel;
 
     public trying() {
         setTitle("QR Code Generator and MySQL Saver");
-        setSize(600, 300);
+        setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JLabel nameLabel = new JLabel("Name:");
         nameLabel.setFont(new Font("Georgia", Font.BOLD, 25));
         nameLabel.setForeground(Color.red);
         nameTextField = new JTextField();
-        JLabel dobLabel = new JLabel("Date of Birth:");
-        dobLabel.setFont(new Font("Georgia", Font.BOLD, 25));
-        dobLabel.setForeground(Color.red);
-        dobTextField = new JTextField();
+        nameTextField.setFont(new Font("Georgia", Font.BOLD, 20));
+        JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setFont(new Font("Georgia", Font.BOLD, 25));
+        emailLabel.setForeground(Color.red);
+        emailTextField = new JTextField();
+        emailTextField.setFont(new Font("Georgia", Font.BOLD, 20));
+        JLabel contentLabel= new JLabel("Content:");
+        contentLabel.setFont(new Font("Georgia", Font.BOLD, 25));
+        contentLabel.setForeground(Color.red);
         contentTextField = new JTextField();
-        contentTextField.setFont(new Font("Georgia", Font.BOLD, 25));
+        contentTextField.setFont(new Font("Georgia", Font.BOLD, 20));
         JButton generateButton = new JButton("Generate QR Code");
+        generateButton.setFont(new Font("Arial", Font.BOLD, 40));
+        generateButton.setForeground(Color.black);
+        generateButton.setBackground(Color.DARK_GRAY);
+
         qrCodeLabel = new JLabel();
+        qrCodeLabel.setFont(new Font("Georgia", Font.BOLD, 25));
+        qrCodeLabel.setForeground(Color.red);
+
         JButton saveButton = new JButton("Save to MySQL");
+        saveButton.setFont(new Font("Arial", Font.BOLD, 40));
+        saveButton.setForeground(Color.black);
+        saveButton.setBackground(Color.DARK_GRAY);
 
         generateButton.addActionListener(new ActionListener() {
             @Override
@@ -72,20 +82,21 @@ public class trying extends JFrame {
 
         JPanel panel = new JPanel();
         panel.setBackground(Color.ORANGE);
-        panel.setLayout(new GridLayout(8, 4));
+        panel.setLayout(new GridLayout(12, 8));
         JLabel formHeader = new JLabel("QR Code Generator Form");
         formHeader.setFont(new Font("Georgia", Font.BOLD, 40));
         formHeader.setForeground(Color.black);
         panel.add(formHeader);
         panel.add(nameLabel);
         panel.add(nameTextField);
-        panel.add(dobLabel);
-        panel.add(dobTextField);
-        panel.add(new JLabel("Content:"));
+        panel.add(emailLabel);
+        panel.add(emailTextField);
+        panel.add(contentLabel);
         panel.add(contentTextField);
         panel.add(generateButton);
         panel.add(qrCodeLabel);
         panel.add(saveButton);
+        setResizable(true);
 
         add(panel);
     }
@@ -163,14 +174,14 @@ public class trying extends JFrame {
 
             String content = contentTextField.getText();
             String name= nameTextField.getText();
-            String dob =dobTextField.getText();
+            String dob =emailTextField.getText();
 
-            String insertSQL = "INSERT INTO qr_table (name,content,dob) VALUES (name,content,dob)";
+            String insertSQL = "INSERT INTO qr_table (name,content,email) VALUES (?,?,?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
                 // Set the parameter
                 preparedStatement.setString(1, nameTextField.getText());
-                preparedStatement.setString(1,contentTextField.getText() );
-                preparedStatement.setString(1, dobTextField.getText());
+                preparedStatement.setString(2,contentTextField.getText() );
+                preparedStatement.setString(3, emailTextField.getText());
 
                 // Execute the INSERT statement
                 preparedStatement.executeUpdate();

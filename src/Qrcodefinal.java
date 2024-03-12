@@ -20,7 +20,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 
 
-public class trying extends JFrame {
+public class Qrcodefinal extends JFrame {
 
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/sanu";
     private static final String USERNAME = "root";
@@ -32,7 +32,7 @@ public class trying extends JFrame {
 
     private JLabel qrCodeLabel;
 
-    public trying() {
+    public Qrcodefinal() {
         setTitle("QR Code Generator and MySQL Saver");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -200,7 +200,7 @@ public class trying extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new trying().setVisible(true);
+                new Qrcodefinal().setVisible(true);
             }
         });
     }

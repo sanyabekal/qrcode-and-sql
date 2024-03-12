@@ -21,7 +21,7 @@ import com.google.zxing.common.BitMatrix;
 
 
 public class Qrcodefinal extends JFrame {
-
+        //comment
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/sanu";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "sanyabekal";
